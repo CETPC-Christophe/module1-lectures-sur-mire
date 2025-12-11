@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mires Verticales avec Chiffres Positionnables</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #f0f0f0;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    display: flex;
+    gap: clamp(1cm, 5vw, 3cm);
+    height: 100%;
+    align-items: center;
+    padding: clamp(0.5cm, 2vw, 1cm);
+  }
+
+  .mires-viewport {
+    width: clamp(3cm, 20vw, 6cm);
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #333;
+  }
+
+  .mires-wrapper {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 0;
+    gap: 0;
+    cursor: grab;
+    user-select: none;
+  }
+
+  .mires-wrapper.dragging {
+    cursor: grabbing;
+  }
+
+  .mire {
+    display: flex;
+    flex-direction: column-reverse;
+    position: relative;
+    gap: 0;
+  }
+
+  .line-container {
+    display: flex;
+    width: clamp(3cm, 20vw, 6cm);
+    height: clamp(0.75cm, 5vw, 1.5cm);
+  }
+
+  .line-container.first-line {
+    border-bottom: 2px solid black;
+  }
+
+  .square {
+    flex: 1;
+    height: clamp(0.75cm, 5vw, 1.5cm);
+  }
+
+  .red { background-color: red; }
+  .black { background-color: black; }
+  .white { background-color: white; }
+
+  .trait-noir {
+    display: none;
+  }
+
+  .chiffre {
+    position: absolute;
+    font-size: clamp(0.6cm, 3vw, 1.2cm);
+    font-weight: bold;
+    color: black;
+    transform: scaleX(2) scaleY(5);
+    transform-origin: left bottom;
+  }
+
+  .chiffre.red {
+    color: red;
+    background-color: white;
+    padding: 2px 4px;
+    border-radius: 2px;
+  }
+
+  .reading-line {
+    position: fixed;
+    width: clamp(4.5cm, 30vw, 9cm);
+    height: clamp(2px, 0.5vw, 4px);
+    background-color: black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  .reading-value {
+    position: fixed;
+    left: clamp(3.5cm, 22vw, 7cm);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: clamp(36px, 8vw, 72px);
+    font-weight: bold;
+    color: black;
+    z-index: 100;
+    min-width: 150px;
+    text-align: left;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="mires-viewport" id="miresViewport">
+    <div class="mires-wrapper" id="miresWrapper">
+      <!-- mire39 (39) -->
+<div class="mire" id="mire39">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire38 (38) -->
+<div class="mire" id="mire38">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire37 (37) -->
+<div class="mire" id="mire37">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire36 (36) -->
+<div class="mire" id="mire36">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire35 (35) -->
+<div class="mire" id="mire35">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire34 (34) -->
+<div class="mire" id="mire34">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire33 (33) -->
+<div class="mire" id="mire33">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire32 (32) -->
+<div class="mire" id="mire32">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire31 (31) -->
+<div class="mire" id="mire31">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire30 (30) -->
+<div class="mire" id="mire30">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire29 (29) -->
+<div class="mire" id="mire29">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire28 (28) -->
+<div class="mire" id="mire28">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire27 (27) -->
+<div class="mire" id="mire27">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire26 (26) -->
+<div class="mire" id="mire26">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire25 (25) -->
+<div class="mire" id="mire25">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire24 (24) -->
+<div class="mire" id="mire24">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire23 (23) -->
+<div class="mire" id="mire23">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire22 (22) -->
+<div class="mire" id="mire22">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire21 (21) -->
+<div class="mire" id="mire21">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire20 (20) -->
+<div class="mire" id="mire20">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire19 (19) -->
+<div class="mire" id="mire19">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire18 (18) -->
+<div class="mire" id="mire18">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire17 (17) -->
+<div class="mire" id="mire17">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire16 (16) -->
+<div class="mire" id="mire16">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire15 (15) -->
+<div class="mire" id="mire15">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire14 (14) -->
+<div class="mire" id="mire14">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire13 (13) -->
+<div class="mire" id="mire13">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire12 (12) -->
+<div class="mire" id="mire12">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire11 (11) -->
+<div class="mire" id="mire11">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire10 (10) -->
+<div class="mire" id="mire10">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire9 (9) -->
+<div class="mire" id="mire9">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire8 (8) -->
+<div class="mire" id="mire8">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire7 (7) -->
+<div class="mire" id="mire7">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire6 (6) -->
+<div class="mire" id="mire6">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire5 (5) -->
+<div class="mire" id="mire5">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire4 (4) -->
+<div class="mire" id="mire4">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire3 (3) -->
+<div class="mire" id="mire3">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire2 (2) -->
+<div class="mire" id="mire2">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire1 (1) -->
+<div class="mire" id="mire1">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire9 (9) -->
+<div class="mire" id="mire9">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire8 (8) -->
+<div class="mire" id="mire8">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire7 (7) -->
+<div class="mire" id="mire7">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire6 (6) -->
+<div class="mire" id="mire6">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire5 (5) -->
+<div class="mire" id="mire5">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire4 (4) -->
+<div class="mire" id="mire4">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire3 (3) -->
+<div class="mire" id="mire3">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire2 (2) -->
+<div class="mire" id="mire2">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire1 (1) -->
+<div class="mire" id="mire1">
+  <div class="trait-noir"></div>
+</div>
+
+<!-- mire0 (0) -->
+<div class="mire" id="mire0">
+  <div class="trait-noir"></div>
+</div>
+    </div>
+  </div>
+</div>
+
+<div class="reading-line"></div>
+<div class="reading-value" id="readingValue">0 mm</div>
+
+<script>
+  // Couleurs des mires
+  const mire1Colors = [
+    ['white','white','white','white'],
+    ['white','white','red','white'],
+    ['white','white','white','white'],
+    ['white','white','red','white'],
+    ['white','white','white','white'],
+    ['white','white','red','red'],
+    ['white','white','white','red'],
+    ['white','white','red','red'],
+    ['white','white','white','red'],
+    ['white','white','red','red']
+  ];
+
+  const mire2Colors = [
+    ['white','white','white','white'],
+    ['white','red','white','white'],
+    ['white','white','white','white'],
+    ['white','red','white','white'],
+    ['white','white','white','white'],
+    ['red','red','white','white'],
+    ['red','white','white','white'],
+    ['red','red','white','white'],
+    ['red','white','white','white'],
+    ['red','red','white','white']
+  ];
+
+  const mire1BlackColors = [
+    ['white','white','white','white'],
+    ['white','white','black','white'],
+    ['white','white','white','white'],
+    ['white','white','black','white'],
+    ['white','white','white','white'],
+    ['white','white','black','black'],
+    ['white','white','white','black'],
+    ['white','white','black','black'],
+    ['white','white','white','black'],
+    ['white','white','black','black']
+  ];
+
+  const mire2BlackColors = [
+    ['white','white','white','white'],
+    ['white','black','white','white'],
+    ['white','white','white','white'],
+    ['white','black','white','white'],
+    ['white','white','white','white'],
+    ['black','black','white','white'],
+    ['black','white','white','white'],
+    ['black','black','white','white'],
+    ['black','white','white','white'],
+    ['black','black','white','white']
+  ];
+
+  function generateMire(mireId, colors) {
+    const mire = document.getElementById(mireId);
+    colors.forEach((line, index) => {
+      const lineDiv = document.createElement('div');
+      lineDiv.className = 'line-container';
+      if (index === 0) {
+        lineDiv.classList.add('first-line');
+      }
+      line.forEach(color => {
+        const square = document.createElement('div');
+        square.className = `square ${color}`;
+        lineDiv.appendChild(square);
+      });
+      mire.appendChild(lineDiv);
+    });
+  }
+
+  // Générer les mires
+  generateMire('mire10', mire1Colors);
+  generateMire('mire11', mire2Colors);
+  generateMire('mire12', mire1Colors);
+  generateMire('mire13', mire2Colors);
+  generateMire('mire14', mire1Colors);
+  generateMire('mire15', mire2Colors);
+  generateMire('mire16', mire1Colors);
+  generateMire('mire17', mire2Colors);
+  generateMire('mire18', mire1Colors);
+  generateMire('mire19', mire2Colors);
+  generateMire('mire20', mire1BlackColors);
+  generateMire('mire21', mire2BlackColors);
+  generateMire('mire22', mire1BlackColors);
+  generateMire('mire23', mire2BlackColors);
+  generateMire('mire24', mire1BlackColors);
+  generateMire('mire25', mire2BlackColors);
+  generateMire('mire26', mire1BlackColors);
+  generateMire('mire27', mire2BlackColors);
+  generateMire('mire28', mire1BlackColors);
+  generateMire('mire29', mire2BlackColors);
+  generateMire('mire30', mire1Colors);
+  generateMire('mire31', mire2Colors);
+  generateMire('mire32', mire1Colors);
+  generateMire('mire33', mire2Colors);
+  generateMire('mire34', mire1Colors);
+  generateMire('mire35', mire2Colors);
+  generateMire('mire36', mire1Colors);
+  generateMire('mire37', mire2Colors);
+  generateMire('mire38', mire1Colors);
+  generateMire('mire39', mire2Colors);
+  generateMire('mire9', mire2BlackColors);
+  generateMire('mire8', mire1BlackColors);
+  generateMire('mire7', mire2BlackColors);
+  generateMire('mire6', mire1BlackColors);
+  generateMire('mire5', mire2BlackColors);
+  generateMire('mire4', mire1BlackColors);
+  generateMire('mire3', mire2BlackColors);
+  generateMire('mire2', mire1BlackColors);
+  generateMire('mire1', mire2BlackColors);
+  generateMire('mire0', mire1BlackColors);
+
+  // Positions personnalisées des chiffres pour chaque mire
+  const chiffresPositions = {
+    mire0: { left: '0%', bottom: '0cm', value: '00' },
+    mire1: { left: '50%', bottom: '-1mm', value: '01' },
+    mire2: { left: '0%', bottom: '-1mm', value: '02' },
+    mire3: { left: '50%', bottom: '-1mm', value: '03' },
+    mire4: { left: '0%', bottom: '-1mm', value: '04' },
+    mire5: { left: '50%', bottom: '-1mm', value: '05' },
+    mire6: { left: '0%', bottom: '-1mm', value: '06' },
+    mire7: { left: '50%', bottom: '-1mm', value: '07' },
+    mire8: { left: '0%', bottom: '-1mm', value: '08' },
+    mire9: { left: '50%', bottom: '-1mm', value: '09' },
+    mire10: { left: '0%', bottom: '-1mm', value: '10' },
+    mire11: { left: '50%', bottom: '-1mm', value: '11' },
+    mire12: { left: '0%', bottom: '-1mm', value: '12' },
+    mire13: { left: '50%', bottom: '-1mm', value: '13' },
+    mire14: { left: '0%', bottom: '-1mm', value: '14' },
+    mire15: { left: '50%', bottom: '-1mm', value: '15' },
+    mire16: { left: '0%', bottom: '-1mm', value: '16' },
+    mire17: { left: '50%', bottom: '-1mm', value: '17' },
+    mire18: { left: '0%', bottom: '-1mm', value: '18' },
+    mire19: { left: '50%', bottom: '-1mm', value: '19' },
+    mire20: { left: '0%', bottom: '-1mm', value: '20' },
+    mire21: { left: '50%', bottom: '-1mm', value: '21' },
+    mire22: { left: '0%', bottom: '-1mm', value: '22' },
+    mire23: { left: '50%', bottom: '-1mm', value: '23' },
+    mire24: { left: '0%', bottom: '-1mm', value: '24' },
+    mire25: { left: '50%', bottom: '-1mm', value: '25' },
+    mire26: { left: '0%', bottom: '-1mm', value: '26' },
+    mire27: { left: '50%', bottom: '-1mm', value: '27' },
+    mire28: { left: '0%', bottom: '-1mm', value: '28' },
+    mire29: { left: '50%', bottom: '-1mm', value: '29' },
+    mire30: { left: '0%', bottom: '-1mm', value: '30' },
+    mire31: { left: '50%', bottom: '-1mm', value: '31' },
+    mire32: { left: '0%', bottom: '-1mm', value: '32' },
+    mire33: { left: '50%', bottom: '-1mm', value: '33' },
+    mire34: { left: '0%', bottom: '-1mm', value: '34' },
+    mire35: { left: '50%', bottom: '-1mm', value: '35' },
+    mire36: { left: '0%', bottom: '-1mm', value: '36' },
+    mire37: { left: '50%', bottom: '-1mm', value: '37' },
+    mire38: { left: '0%', bottom: '-1mm', value: '38' },
+    mire39: { left: '50%', bottom: '-1mm', value: '39' }
+  };
+
+  function addChiffre(mireId, position) {
+    const mire = document.getElementById(mireId);
+    const chiffre = document.createElement('div');
+    chiffre.className = 'chiffre';
+    const mireNum = parseInt(mireId.replace('mire', ''));
+    const groupNum = Math.floor(mireNum / 10);
+    if (groupNum % 2 === 1) {
+      chiffre.classList.add('red');
+    }
+    chiffre.style.left = position.left;
+    chiffre.style.bottom = position.bottom;
+    chiffre.textContent = position.value;
+    mire.appendChild(chiffre);
+  }
+
+  // Ajouter les chiffres
+  addChiffre('mire0', chiffresPositions.mire0);
+  addChiffre('mire1', chiffresPositions.mire1);
+  addChiffre('mire2', chiffresPositions.mire2);
+  addChiffre('mire3', chiffresPositions.mire3);
+  addChiffre('mire4', chiffresPositions.mire4);
+  addChiffre('mire5', chiffresPositions.mire5);
+  addChiffre('mire6', chiffresPositions.mire6);
+  addChiffre('mire7', chiffresPositions.mire7);
+  addChiffre('mire8', chiffresPositions.mire8);
+  addChiffre('mire9', chiffresPositions.mire9);
+  addChiffre('mire10', chiffresPositions.mire10);
+  addChiffre('mire11', chiffresPositions.mire11);
+  addChiffre('mire12', chiffresPositions.mire12);
+  addChiffre('mire13', chiffresPositions.mire13);
+  addChiffre('mire14', chiffresPositions.mire14);
+  addChiffre('mire15', chiffresPositions.mire15);
+  addChiffre('mire16', chiffresPositions.mire16);
+  addChiffre('mire17', chiffresPositions.mire17);
+  addChiffre('mire18', chiffresPositions.mire18);
+  addChiffre('mire19', chiffresPositions.mire19);
+  addChiffre('mire20', chiffresPositions.mire20);
+  addChiffre('mire21', chiffresPositions.mire21);
+  addChiffre('mire22', chiffresPositions.mire22);
+  addChiffre('mire23', chiffresPositions.mire23);
+  addChiffre('mire24', chiffresPositions.mire24);
+  addChiffre('mire25', chiffresPositions.mire25);
+  addChiffre('mire26', chiffresPositions.mire26);
+  addChiffre('mire27', chiffresPositions.mire27);
+  addChiffre('mire28', chiffresPositions.mire28);
+  addChiffre('mire29', chiffresPositions.mire29);
+  addChiffre('mire30', chiffresPositions.mire30);
+  addChiffre('mire31', chiffresPositions.mire31);
+  addChiffre('mire32', chiffresPositions.mire32);
+  addChiffre('mire33', chiffresPositions.mire33);
+  addChiffre('mire34', chiffresPositions.mire34);
+  addChiffre('mire35', chiffresPositions.mire35);
+  addChiffre('mire36', chiffresPositions.mire36);
+  addChiffre('mire37', chiffresPositions.mire37);
+  addChiffre('mire38', chiffresPositions.mire38);
+  addChiffre('mire39', chiffresPositions.mire39);
+
+  // Système de lecture avec graduation invisible
+  const miresWrapper = document.getElementById('miresWrapper');
+  const miresViewport = document.getElementById('miresViewport');
+  const readingValue = document.getElementById('readingValue');
+
+  let isDragging = false;
+  let dragStart = 0;
+  let wrapperStartPos = 0;
+
+  // Constantes de conversion
+  const MM_PER_CM = 10;
+  const MIRE_HEIGHT_CM = 10;
+  const MIRE_HEIGHT_MM = 100;
+  const GRADUATION_MM = 1;
+  const GRADUATION_CM = GRADUATION_MM / MM_PER_CM;
+  const TOTAL_MIRES = 40;
+  const TOTAL_MM = 4000;
+
+  function pxPerMM() {
+    const testMire = document.getElementById('mire0');
+    if (!testMire) return 3.78;
+    const rect = testMire.getBoundingClientRect();
+    const height = rect.height;
+    return height / MIRE_HEIGHT_MM;
+  }
+
+  function updateReadingValue() {
+    const pixelsPerMM = pxPerMM();
+    const wrapperTop = miresWrapper.style.top ? parseFloat(miresWrapper.style.top) : 0;
+    const viewportHeight = miresViewport.clientHeight;
+    const totalHeight = miresWrapper.scrollHeight;
+    const readingPosPixels = (viewportHeight / 2) - wrapperTop;
+    const readingMM = Math.round((totalHeight - readingPosPixels) / pixelsPerMM);
+    const clampedMM = Math.max(0, Math.min(TOTAL_MM, readingMM));
+    readingValue.textContent = clampedMM + ' mm';
+  }
+
+  function getTotalHeight() {
+    return miresWrapper.scrollHeight;
+  }
+
+  function snapToGraduation(pos) {
+    const pixelsPerMM = pxPerMM();
+    const snapSizePixels = GRADUATION_MM * pixelsPerMM;
+    return Math.round(pos / snapSizePixels) * snapSizePixels;
+  }
+
+  miresWrapper.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    dragStart = e.clientY;
+    wrapperStartPos = miresWrapper.style.top ? parseFloat(miresWrapper.style.top) : 0;
+    miresWrapper.classList.add('dragging');
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+
+    const deltaY = e.clientY - dragStart;
+    let newPos = wrapperStartPos + deltaY;
+
+    const totalHeight = getTotalHeight();
+    const viewportHeight = miresViewport.clientHeight;
+    const minPos = -(totalHeight - viewportHeight / 2);
+    const maxPos = viewportHeight / 2;
+
+    newPos = Math.max(minPos, Math.min(maxPos, newPos));
+    newPos = snapToGraduation(newPos);
+
+    miresWrapper.style.top = newPos + 'px';
+    updateReadingValue();
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    miresWrapper.classList.remove('dragging');
+  });
+
+// ----------------------------------------
+// 🎯 Scrolling par molette (DESKTOP uniquement)
+// ----------------------------------------
+if (!('ontouchstart' in window)) {
+  miresViewport.addEventListener('wheel', (e) => {
+    e.preventDefault();
+
+    const pixelsPerMM = pxPerMM();
+    const stepMM = 70; // 7 cm = 70 mm
+    const direction = e.deltaY > 0 ? -1 : 1;
+    const step = direction * pixelsPerMM * stepMM; // conversion mm → pixels
+
+    let currentTop = miresWrapper.style.top ? parseFloat(miresWrapper.style.top) : 0;
+    let newPos = currentTop + step;
+
+    const totalHeight = getTotalHeight();
+    const viewportHeight = miresViewport.clientHeight;
+
+    const minPos = -(totalHeight - viewportHeight / 2);
+    const maxPos = viewportHeight / 2;
+
+    newPos = Math.max(minPos, Math.min(maxPos, newPos));
+    newPos = snapToGraduation(newPos);
+
+    miresWrapper.style.top = newPos + 'px';
+    updateReadingValue();
+  }, { passive: false });
+}
+
+
+// ----------------------------------------
+// 🎯 GESTION DU TOUCH (mobile & tablette)
+// ----------------------------------------
+let touchStartY = 0;
+
+miresViewport.addEventListener('touchstart', (e) => {
+  isDragging = true;
+  touchStartY = e.touches[0].clientY;
+  wrapperStartPos = miresWrapper.style.top ? parseFloat(miresWrapper.style.top) : 0;
+  miresWrapper.classList.add('dragging');
+}, { passive: true });
+
+miresViewport.addEventListener('touchmove', (e) => {
+  if (!isDragging) return;
+
+  const deltaY = e.touches[0].clientY - touchStartY;
+  let newPos = wrapperStartPos + deltaY;
+
+  const totalHeight = getTotalHeight();
+  const viewportHeight = miresViewport.clientHeight;
+  const minPos = -(totalHeight - viewportHeight / 2);
+  const maxPos = viewportHeight / 2;
+
+  newPos = Math.max(minPos, Math.min(maxPos, newPos));
+  newPos = snapToGraduation(newPos);
+
+  miresWrapper.style.top = newPos + 'px';
+  updateReadingValue();
+}, { passive: true });
+
+miresViewport.addEventListener('touchend', () => {
+  isDragging = false;
+  miresWrapper.classList.remove('dragging');
+});
+
+  // Position initiale (mire0 au milieu du viewport pour lire 0 mm)
+  window.onload = () => {
+  const viewportHeight = miresViewport.clientHeight;
+  const totalHeight = getTotalHeight();
+  const initialTop = (viewportHeight / 2) - totalHeight;
+  miresWrapper.style.top = initialTop + 'px';
+  updateReadingValue();
+};
+</script>
+
+</body>
+</html>
